@@ -59,7 +59,7 @@ kubectl get pods -n kube-system
 
 You can install the `aws-cli` Helm chart as such (after replacing `<YOUR_AWS_ACCOUNT_ID>` with your account ID):
 ```bash
-helm install --create-namespace --namespace aws-eks-irsa --set awsAccountId=<YOUR_AWS_ACCOUNT_ID> aws-cli helm/aws-cli
+helm upgrade --install --create-namespace --namespace aws-eks-irsa --set awsAccountId=<YOUR_AWS_ACCOUNT_ID> aws-cli helm/aws-cli
 ```
 
 Then, you can check your resources were created into the EKS cluster:
