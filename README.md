@@ -11,6 +11,7 @@ You need several tools to be able to interact with the infrastructure of this pr
 - Terragrunt
 - aws CLI v2
 - kubectl
+- helm v3
 
 You can install those tools on your computer thanks to [tfswitch](https://github.com/warrensbox/terraform-switcher) and
 to [tgswitch](https://github.com/warrensbox/tgswitch).
@@ -52,4 +53,24 @@ aws eks --region eu-west-3 update-kubeconfig --name aws-eks-irsa --profile <YOUR
 Then, you can interact with the Kubernetes cluster with `kubectl` commands:
 ```bash
 kubectl get pods -n kube-system
+```
+
+## How to deploy aws-cli Helm chart?
+
+You can install the `aws-cli` Helm chart as such (after replacing `<YOUR_AWS_ACCOUNT_ID>` with your account ID):
+```bash
+helm install --create-namespace --namespace aws-eks-irsa --set awsAccountId=<YOUR_AWS_ACCOUNT_ID> aws-cli helm/aws-cli
+```
+
+Then, you can check your resources were created into the EKS cluster:
+```bash
+kubectl get all -n aws-eks-irsa
+```
+
+When the `aws-cli` pod is running, connect to it and execute an AWS CLI command as such:
+```bash
+# Exec into the pod
+kubectl exec -n aws-eks-irsa -it $(kubectl get pods -n aws-eks-irsa -o=name) -- bash
+# Once inside the aws-cli pod, try to describe EC2 instances ;)
+aws ec2 describe-instances --filters Name=tag:aws:eks:cluster-name,Values=aws-eks-irsa
 ```
