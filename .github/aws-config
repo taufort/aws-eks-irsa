@@ -1,0 +1,7 @@
+[default]
+region = eu-west-3
+output = json
+
+[profile ippon-sandbox]
+aws_access_key_id = __AWS_ACCESS_KEY_ID__
+aws_secret_access_key = __AWS_SECRET_ACCESS_KEY__
